@@ -3,6 +3,7 @@ local M = {}
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
+    ["U"] = { ":redo <CR>", "redo", opts = { nowait = true } },
     ["<leader>fs"] = { ":w <CR>", "Save File" , opts = { nowait = true }},
     ["<leader>jw"] = { ":HopWord <CR>", "Jump Word", opts = { nowait = true} },
     ["<leader>jc"] = { ":HopChar1 <CR>", "Jump Character", opts = { nowait = true } },
