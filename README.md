@@ -2,6 +2,7 @@
 
 Personal NeoVim configuration.
 
+## Deps
 
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
@@ -14,7 +15,11 @@ unzip DroidSansMono.zip -d ~/.fonts/
 fc-cache -fv
 ```
 
+## Install
+
 ```bash
+git clone https://github.com/c3rb3ru5d3d53c/nvim.git
+cd nvim/
 make install
 ```
 
