@@ -36,10 +36,10 @@ local plugins = {
     end
   },
   {
-    "smoka7/hop.nvim",
+    "ggandor/leap.nvim",
     lazy = false,
     config = function()
-      require("custom.configs.hop")
+      require("custom.configs.leap")
     end
   },
   {
