@@ -17,6 +17,10 @@ local plugins = {
     end,
   },
   {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
+  {
     "s3rvac/vim-syntax-yara",
     lazy = false,
   },

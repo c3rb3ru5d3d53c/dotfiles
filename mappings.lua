@@ -2,6 +2,10 @@ local M = {}
 
 M.general = {
   n = {
+    ["<C-j>"] = { ":TmuxNavigateDown<CR>", "Tmux Navigate Down", opts = { nowait = true } },
+    ["<C-k>"] = { ":TmuxNavigateUp<CR>", "Tmux Navigate Up", opts = { nowait = true } },
+    ["<C-l>"] = { ":TmuxNavigateRight<CR>", "Tmux Navigate Right", opts = { nowait = true } },
+    ["<C-h>"] = { ":TmuxNavigateLeft<CR>", "Tmux Navigate Left", opts = { nowait = true } },
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
     ["U"] = { ":redo <CR>", "redo", opts = { nowait = true } },
     ["<leader>fs"] = { ":w <CR>", "Save File" , opts = { nowait = true }},

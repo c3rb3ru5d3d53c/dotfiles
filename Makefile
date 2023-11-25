@@ -1,16 +1,16 @@
 all: build-fonts build-yls build-pyright
 
-install: install-fonts install-nvchad install-config
+install: install-fonts install-tmux install-nvchad install-nvim
 
-uninstall: uninstall-config
+uninstall: uninstall-nvim uninstall-tmux
 
 clean: clean-bin clean-fonts
 
-install-config: uninstall-config
-	@echo "[-] installing configuration"
+install-nvim: uninstall-nvim
+	@echo "[-] installing nvim"
 	@mkdir -p ~/.config/nvim/lua/custom/
 	@cp -r . ~/.config/nvim/lua/custom/
-	@echo "[*] installing configuration completed"
+	@echo "[*] installing nvim completed"
 
 install-nvchad:
 	@echo "[-] installing nvchad"
@@ -20,6 +20,21 @@ install-nvchad:
 	else \
 		echo "[*] installing nvchad completed"; \
 	fi
+
+install-tmux:
+	@echo "[-] installing tmux"
+	git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	mkdir -p ~/.config/tmux/
+	cp ./configs/tmux.conf ~/.config/tmux/tmux.conf
+	@echo "[*] installing tmux completed"
+
+uninstall-tmux:
+	@echo "[-] uninstalling tmux"
+	@rm -rf \
+		~/.config/tmux/ \
+		~/.tmux/
+	@rm -f ~/.tmux.conf
+	@echo "[-] uninstalling tmux completed"
 
 build-yls:
 	@echo "[-] building yara language server"
@@ -68,8 +83,10 @@ clean-bin:
 clean-fonts:
 	rm -rf fonts/
 
-uninstall-config:
+uninstall-nvim:
+	@echo "[-] uninstalling nvim"
 	@rm -rf ~/.config/nvim/lua/custom/
+	@echo "[*] uninstalling nvim completed"
 
 uninstall-nvchad:
 	rm -rf \
