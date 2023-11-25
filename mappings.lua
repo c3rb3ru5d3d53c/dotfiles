@@ -12,6 +12,8 @@ M.general = {
     ["<leader>ai"] = { ":Gen Insert_Response<CR>", "AI Insert Reponse", opts = { nowait = true } },
     ["<leader>gf"] = { ":Git<CR>", "Git Fugative", opts = { nowait = true } },
     ["<leader>gd"] = { ":Gdiffsplit<CR>", "Git Diff", opts = { nowait = true } },
+    ["<leader>gp"] = { ":Git push<CR>", "Git Push", opts = { nowait = true } },
+    ["<leader>gc"] = { ":Git commit<CR>", "Git Commit", opts = { nowait = true } },
   },
   v = {
     [">"] = { ">gv", "indent"},
