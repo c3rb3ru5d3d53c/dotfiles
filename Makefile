@@ -4,12 +4,12 @@ install: install-fonts install-tmux install-nvchad install-nvim
 
 uninstall: uninstall-nvim uninstall-tmux
 
-clean: clean-bin clean-fonts
+clean: clean-build
 
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
 	@mkdir -p ~/.config/nvim/lua/custom/
-	@cp -r . ~/.config/nvim/lua/custom/
+	@cp -r ./nvim/* ~/.config/nvim/lua/custom/
 	@echo "[*] installing nvim completed"
 
 install-nvchad:
@@ -23,9 +23,9 @@ install-nvchad:
 
 install-tmux:
 	@echo "[-] installing tmux"
-	git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	mkdir -p ~/.config/tmux/
-	cp ./configs/tmux.conf ~/.config/tmux/tmux.conf
+	@git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	@mkdir -p ~/.config/tmux/
+	@cp ./tmux/tmux.conf ~/.config/tmux/tmux.conf
 	@echo "[*] installing tmux completed"
 
 uninstall-tmux:
@@ -38,8 +38,8 @@ uninstall-tmux:
 
 build-yls:
 	@echo "[-] building yara language server"
-	@git clone -q https://github.com/avast/yls.git bin/yls/
-	@cd bin/yls/ && \
+	@git clone -q https://github.com/avast/yls.git build/bin/yls/
+	@cd build/bin/yls/ && \
 		virtualenv -q -p python3 venv && \
 		. venv/bin/activate && \
 		pip install -q .
@@ -47,8 +47,8 @@ build-yls:
 
 build-pyright:
 	@echo "[-] building pyright language server"
-	@mkdir -p bin/pyright/
-	@cd bin/pyright/ && \
+	@mkdir -p ./build/bin/pyright/
+	@cd ./build/bin/pyright/ && \
 		virtualenv -q -p python3 venv && \
 		. venv/bin/activate && \
 		pip install -q pyright
@@ -56,9 +56,9 @@ build-pyright:
 
 build-fonts:
 	@echo "[-] building fonts"
-	@mkdir -p fonts/
-	@wget -qO fonts/DroidSansMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/DroidSansMono.zip	
-	@cd fonts/ && \
+	@mkdir -p ./build/fonts/
+	@wget -qO ./build/fonts/DroidSansMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/DroidSansMono.zip	
+	@cd ./build/fonts/ && \
 		unzip -q DroidSansMono.zip -d . && \
 		rm -rf *.md *.zip *.txt
 	@echo "[*] building fonts completed"
@@ -66,22 +66,22 @@ build-fonts:
 install-fonts:
 	@echo "[-] installing fonts"
 	@mkdir -p ~/.fonts/
-	@cd fonts/ && \
+	@cd ./build/fonts/ && \
 		cp -r . ~/fonts/
 	@fc-cache -f
 	@echo "[*] installing fonts completed"
 
 clean-yls:
-	rm -rf bin/yls/
+	rm -rf ./build/bin/yls/
 
 clean-pyright:
-	rm -rf bin/pyright/
+	rm -rf ./build/bin/pyright/
 
-clean-bin:
-	rm -rf bin/
+clean-build:
+	rm -rf ./build/
 
 clean-fonts:
-	rm -rf fonts/
+	rm -rf ./build/fonts/
 
 uninstall-nvim:
 	@echo "[-] uninstalling nvim"
