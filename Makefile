@@ -21,6 +21,17 @@ install-nvchad:
 		echo "[*] installing nvchad completed"; \
 	fi
 
+install-kitty: uninstall-kitty
+	@echo "[-] installing kitty"
+	@mkdir -p ~/.config/kitty/
+	@cp ./kitty/kitty.conf ~/.config/kitty/kitty.conf
+	@echo "[*] installing kitty completed"
+
+uninstall-kitty:
+	@echo "[-] uninstalling kitty"
+	@rm -rf ~/.config/kitty/
+	@echo "[*] uninstalling kitty completed"
+
 install-tmux: uninstall-tmux
 	@echo "[-] installing tmux"
 	@git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
