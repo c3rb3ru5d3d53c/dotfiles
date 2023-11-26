@@ -1,10 +1,10 @@
 local M = {}
 
-local highlights = require "custom.highlights"
+local highlights = require("custom.highlights")
 
 M.ui = {
-  theme = "yoru",
-  theme_toggle = { "yoru", "onedark" },
+  theme = "yoro",
+  theme_toggle = { "yoro", "tokyodark" },
   statusline = {
     theme = "default",
     separator_style = "arrow",
@@ -21,6 +21,6 @@ M.ui = {
 
 M.plugins = "custom.plugins"
 
-M.mappings = require "custom.mappings"
+M.mappings = require("custom.mappings")
 
 return M

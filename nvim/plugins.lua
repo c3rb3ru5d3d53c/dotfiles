@@ -17,6 +17,13 @@ local plugins = {
     end,
   },
   {
+    "ray-x/lsp_signature.nvim",
+    lazy = false,
+    config = function ()
+      require("custom.configs.lsp_signature")
+    end
+  },
+  {
     "christoomey/vim-tmux-navigator",
     lazy = false,
   },
