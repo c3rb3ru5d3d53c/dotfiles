@@ -1,6 +1,6 @@
 all: build-fonts build-yls build-pyright
 
-install: install-fonts install-tmux install-nvchad install-nvim
+install: install-fonts install-fish install-tmux install-nvchad install-nvim
 
 uninstall: uninstall-nvim uninstall-tmux
 
@@ -21,12 +21,35 @@ install-nvchad:
 		echo "[*] installing nvchad completed"; \
 	fi
 
-install-tmux:
+install-tmux: uninstall-tmux
 	@echo "[-] installing tmux"
 	@git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	@mkdir -p ~/.config/tmux/
 	@cp ./tmux/tmux.conf ~/.config/tmux/tmux.conf
 	@echo "[*] installing tmux completed"
+
+install-fish: uninstall-fish
+	@echo "[-] installing fish"
+	@mkdir -p ~/.config/fish/functions/
+	@cp -r ./fish/functions/* ~/.config/fish/functions/
+	@curl -s https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command "set argv --noninteractive"
+	@echo "omf install lambda" | fish
+	@mkdir -p ./build/bin/lsd/
+	@wget -O ./build/bin/lsd/lsd.tar.gz https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz
+	@tar -xzvf ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
+	@chmod +x ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd
+	@cp ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd ~/.local/bin/lsd
+	@echo "[*] installing fish completed"
+
+uninstall-fish:
+	@echo "[-] uninstalling fish"
+	@rm -rf \
+		~/.config/fish/functions/ \
+		~/.local/share/omf/ \
+		~/.cache/omf/ \
+		~/.config/omf/
+	@rm -f ~/.config/fish/conf.d/omf.fish
+	@echo "[*] uninstalling fish completed"
 
 uninstall-tmux:
 	@echo "[-] uninstalling tmux"
