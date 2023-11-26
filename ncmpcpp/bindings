@@ -1,0 +1,16 @@
+def_key "j"
+  scroll_down
+def_key "k"
+  scroll_up
+def_key "space"
+  pause
+def_key "v"
+  show_visualizer
+def_key "p"
+  show_playlist
+def_key "c"
+  show_clock
+def_key "b"
+  show_browser
+def_key "="
+  volume_up

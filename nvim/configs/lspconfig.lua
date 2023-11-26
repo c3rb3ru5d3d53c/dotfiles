@@ -19,12 +19,12 @@ require("lspconfig").clangd.setup({
 })
 
 require("lspconfig").yls.setup({
-  cmd = { vim.fn.stdpath("config") .. "/lua/custom/bin/yls/venv/bin/yls" },
+  cmd = { "yls" },
   filetypes = { "yar", "yara" }
 })
 
 require("lspconfig").pyright.setup({
-  cmd = { vim.fn.stdpath("config") .. "/lua/custom/bin/pyright/venv/bin/pyright-langserver", "--stdio" },
+  cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
   settings = {
       python = {

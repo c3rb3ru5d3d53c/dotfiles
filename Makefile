@@ -1,10 +1,61 @@
-all: build-fonts build-yls build-pyright
+all: build-fonts
 
-install: install-fonts install-kitty install-fish install-tmux install-nvchad install-nvim
+install: \
+	install-fonts \
+	install-kitty \
+	install-fish \
+	install-youtube-dl \
+	install-pyright \
+	install-yls \
+	install-tmux \
+	install-nvchad \
+	install-nvim
 
-uninstall: uninstall-nvim uninstall-tmux
+uninstall: \
+	uninstall-nvim \
+	uninstall-tmux \
+	uninstall-kitty \
+	uninstall-youtube-dl \
+	uninstall-pyright \
+	uninstall-yls \
+	uninstall-tmux \
+	uninstall-fish
 
 clean: clean-build
+
+install-youtube-dl: uninstall-youtube-dl
+	@echo "[-] installing youtube-dl"
+	@mkdir -p ~/.local/bin/
+	@git clone -q https://github.com/ytdl-org/youtube-dl.git ~/.local/bin/.youtube-dl
+	@cd ~/.local/bin/.youtube-dl/ && \
+		virtualenv -q -p python3 venv && \
+		. venv/bin/activate && \
+		pip install .
+	@ln -s ~/.local/bin/.youtube-dl/venv/bin/youtube-dl ~/.local/bin/youtube-dl
+	@echo "[*] installing youtube-dl completed"
+
+uninstall-youtube-dl:
+	@echo "[-] uninstalling youtube-dl"
+	@rm -rf ~/.local/bin/.youtube-dl/
+	@rm -f ~/.local/bin/youtube-dl
+	@echo "[*] uninstalling youtube-dl completed"
+
+install-ncmpcpp: uninstall-ncmpcpp
+	@echo "[-] installing ncmpcpp"
+	@mkdir -p ~/Music/PlayLists/
+	@mkdir -p ~/.config/mpd/
+	@touch ~/.config/mpd/mpd.log
+	@touch ~/.config/mpd/mpd.db
+	@cp ./mpd/mpd.conf ~/.config/mpd/mpd.conf
+	@mkdir -p ~/.config/ncmpcpp/
+	@cp -r ./ncmpcpp/* ~/.config/ncmpcpp/
+	@echo "[*] installing ncmpcpp completed"
+
+uninstall-ncmpcpp:
+	@echo "[-] uninstalling ncmpcpp"
+	@rm -rf ~/.config/mpd/
+	@rm -rf ~/.config/ncmpcpp/
+	@echo "[*] uninstalling ncmpcpp"
 
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
@@ -70,23 +121,37 @@ uninstall-tmux:
 	@rm -f ~/.tmux.conf
 	@echo "[-] uninstalling tmux completed"
 
-build-yls:
-	@echo "[-] building yara language server"
-	@git clone -q https://github.com/avast/yls.git build/bin/yls/
-	@cd build/bin/yls/ && \
+install-yls: uninstall-yls
+	@echo "[-] installing yls"
+	@git clone -q https://github.com/avast/yls.git ~/.local/bin/.yls
+	@cd ~/.local/bin/.yls/ && \
 		virtualenv -q -p python3 venv && \
 		. venv/bin/activate && \
 		pip install -q .
-	@echo "[*] building yara language server completed"
+	@ln -s ~/.local/bin/.yls/venv/bin/yls ~/.local/bin/yls
+	@echo "[*] installing yls completed"
 
-build-pyright:
+uninstall-yls:
+	@echo "[-] uninstalling yls"
+	@rm -rf ~/.local/bin/.yls/
+	@rm -f ~/.local/bin/yls
+	@echo "[*] uninstalling yls completed"
+
+install-pyright: uninstall-pyright
 	@echo "[-] building pyright language server"
-	@mkdir -p ./build/bin/pyright/
-	@cd ./build/bin/pyright/ && \
+	@mkdir -p ~/.local/bin/.pyright/
+	@cd ~/.local/bin/.pyright/ && \
 		virtualenv -q -p python3 venv && \
 		. venv/bin/activate && \
 		pip install -q pyright
+	@ln -s ~/.local/bin/.pyright/venv/bin/pyright-langserver ~/.local/bin/pyright-langserver
 	@echo "[*] building pyright language server completed"
+
+uninstall-pyright:
+	@echo "[-] uninstalling pyright"
+	@rm -rf ~/.local/bin/.pyright/
+	@rm -f ~/.local/bin/pyright-langserver
+	@echo "[*] uninstalling pyright completed"
 
 build-fonts:
 	@echo "[-] building fonts"
@@ -104,12 +169,6 @@ install-fonts:
 		cp -r . ~/fonts/
 	@fc-cache -f
 	@echo "[*] installing fonts completed"
-
-clean-yls:
-	rm -rf ./build/bin/yls/
-
-clean-pyright:
-	rm -rf ./build/bin/pyright/
 
 clean-build:
 	rm -rf ./build/

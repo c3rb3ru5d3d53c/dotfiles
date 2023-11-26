@@ -1,0 +1,34 @@
+# MPD Config
+mpd_music_dir = "~/Music/"
+mpd_connection_timeout = "5"
+mpd_crossfade_time = "5"
+
+# General Settings
+playlist_disable_highlight_delay = "0"
+playlist_display_mode = "columns"
+browser_display_mode = "columns"
+incremental_seeking = "yes"
+autocenter_mode = "yes"
+header_visibility = "yes"
+statusbar_visibility = "yes"
+follow_now_playing_lyrics = "yes"
+ignore_leading_the = "yes"
+song_columns_list_format = "(10)[white]{l} (30)[white]{a} (30)[white]{b} (50)[white]{t}"
+
+# Color Config
+colors_enabled = "yes"
+main_window_color = "white"
+header_window_color = "white"
+volume_color = "white"
+progressbar_color = "white"
+statusbar_color = "white"
+color1 = "white"
+color2 = "white"
+
+active_window_border = "green"
+visualizer_color = 41, 83, 119, 155, 185, 215, 209, 203, 197, 161
+visualizer_in_stereo = "no"
+visualizer_data_source = "/tmp/mpd.fifo"
+visualizer_type = "spectrum"
+visualizer_look = "●▮"
+

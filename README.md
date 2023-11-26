@@ -7,7 +7,7 @@ Personal Dotfiles
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt update
-sudo apt install -y fish neovim clangd python-is-python3 python3-pip python3-venv npm
+sudo apt install -y fish mpd ncmpcpp neovim clangd python-is-python3 python3-pip python3-venv npm
 ```
 
 ## Install
