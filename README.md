@@ -19,6 +19,24 @@ make
 make install
 ```
 
+## Optional
+
+Installation of optional applications
+
+### Alacritty Install
+
+```bash
+make build-alacritty
+sudo make install-alacritty
+make install-alacritty-config
+```
+
+### Alacritty Uninstall
+```bash
+sudo make uninstall-alacritty
+make uninstall-alacritty-config
+```
+
 ## Uninstall
 ```bash
 make uninstall
