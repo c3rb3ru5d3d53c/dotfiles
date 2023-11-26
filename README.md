@@ -1,6 +1,6 @@
-# NeoVim Config
+# Dotfiles
 
-Personal NeoVim configuration.
+Personal Dotfiles
 
 ## Deps
 
