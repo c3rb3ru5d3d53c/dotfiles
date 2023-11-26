@@ -1,6 +1,6 @@
 all: build-fonts build-yls build-pyright
 
-install: install-fonts install-fish install-tmux install-nvchad install-nvim
+install: install-fonts install-kitty install-fish install-tmux install-nvchad install-nvim
 
 uninstall: uninstall-nvim uninstall-tmux
 
