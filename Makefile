@@ -2,6 +2,7 @@ all: build-fonts
 
 install: \
 	install-fonts \
+	install-weechat \
 	install-kitty \
 	install-fish \
 	install-youtube-dl \
@@ -13,6 +14,7 @@ install: \
 
 uninstall: \
 	uninstall-nvim \
+	uninstall-weechat \
 	uninstall-tmux \
 	uninstall-kitty \
 	uninstall-youtube-dl \
@@ -22,6 +24,20 @@ uninstall: \
 	uninstall-fish
 
 clean: clean-build
+
+install-weechat: uninstall-weechat
+	@echo "[-] installing weechat"
+	@mkdir -p ~/.config/weechat/
+	@cp -r ./weechat/* ~/.config/weechat/
+	@echo "[*] installing weechat completed"
+
+uninstall-weechat:
+	@echo "[-] uninstalling weechat"
+	@rm -rf \
+		~/.config/weechat/ \
+		~/.cache/weechat/ \
+		~/.local/share/weechat/
+	@echo "[*] uninstalling weechat completed"
 
 install-youtube-dl: uninstall-youtube-dl
 	@echo "[-] installing youtube-dl"
