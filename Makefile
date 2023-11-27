@@ -25,6 +25,20 @@ uninstall: \
 
 clean: clean-build
 
+install-lf:
+	@echo "[-] installing lf"
+	@mkdir -p ./build/lf/
+	@wget -qO ./build/lf/lf-linux-amd64.tar.gz https://github.com/gokcehan/lf/releases/download/r31/lf-linux-amd64.tar.gz
+	@tar -xzf ./build/lf/lf-linux-amd64.tar.gz -C ./build/lf/
+	@chmod +x ./build/lf/lf
+	@cp ./build/lf/lf ~/.local/bin/lf
+	@echo "[*] installing lf completed"
+
+uninstall-lf:
+	@echo "[-] uninstalling lf"
+	@rm -f ~/.local/bin/lf
+	@echo "[-] uninstalling lf completed"
+
 build-alacritty:
 	@echo "[-] building alacritty"
 	@mkdir -p ./build/
