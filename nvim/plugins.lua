@@ -17,6 +17,22 @@ local plugins = {
     end,
   },
   {
+    "ziontee113/icon-picker.nvim",
+    dependencies = {
+      {
+        "nvim-telescope/telescope-ui-select.nvim",
+        lazy = false,
+        config = function()
+          require("custom.configs.telescope-ui-select")
+        end
+      },
+    },
+    lazy = false,
+    config = function()
+      require("custom.configs.icon-picker")
+    end
+  },
+  {
     "ray-x/lsp_signature.nvim",
     lazy = false,
     config = function ()

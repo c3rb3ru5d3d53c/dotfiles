@@ -18,6 +18,7 @@ M.general = {
     ["<leader>gd"] = { ":Gdiffsplit<CR>", "Git Diff", opts = { nowait = true } },
     ["<leader>gp"] = { ":Git push<CR>", "Git Push", opts = { nowait = true } },
     ["<leader>gc"] = { ":Git commit<CR>", "Git Commit", opts = { nowait = true } },
+    ["<leader>ii"] = { ":IconPickerNormal emoji<CR>", "Insert Icon", opts = { nowait = true } },
   },
   v = {
     [">"] = { ">gv", "indent"},
@@ -30,6 +31,7 @@ M.general = {
   },
   i = {
     ["jk"] = { "<ESC>", "escape insert mode" , opts = { nowait = true }},
+    ["<A-i>"] = { "<cmd>IconPickerInsert emoji<CR>", "Pick Icons", opts = { nowait = true } },
   }
 }
 

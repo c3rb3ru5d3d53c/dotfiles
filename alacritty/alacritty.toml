@@ -1,6 +1,5 @@
 [shell]
-program = "tmux"
-args = ["new-session", "-A", "-s", "alacritty"]
+program = "fish"
 
 [window]
 opacity = 0.80
