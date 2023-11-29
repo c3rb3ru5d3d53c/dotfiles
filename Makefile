@@ -2,6 +2,7 @@ all: build-fonts
 
 install: \
 	install-fonts \
+	install-fzf \
 	install-weechat \
 	install-kitty \
 	install-fish \
@@ -14,6 +15,7 @@ install: \
 
 uninstall: \
 	uninstall-nvim \
+	uninstall-fzf \
 	uninstall-weechat \
 	uninstall-tmux \
 	uninstall-kitty \
@@ -24,6 +26,20 @@ uninstall: \
 	uninstall-fish
 
 clean: clean-build
+
+install-fzf: uninstall-fzf
+	@echo "[-] installing fzf"
+	@mkdir -p ./build/fzf/
+	@wget -qO ./build/fzf/fzf-0.44.1-linux_amd64.tar.gz https://github.com/junegunn/fzf/releases/download/0.44.1/fzf-0.44.1-linux_amd64.tar.gz
+	@tar -xzf ./build/fzf/fzf-0.44.1-linux_amd64.tar.gz -C ./build/fzf/
+	@chmod +x ./build/fzf/fzf
+	@cp ./build/fzf/fzf ~/.local/bin/
+	@echo "[*] installing fzf completed"
+
+uninstall-fzf:
+	@echo "[-] uninstalling fzf"
+	@rm -f ~/.local/bin/fzf
+	@echo "[*] uninstalling fzf completed"
 
 install-lf:
 	@echo "[-] installing lf"
