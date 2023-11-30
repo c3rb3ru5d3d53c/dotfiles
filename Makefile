@@ -10,7 +10,6 @@ install: \
 	install-pyright \
 	install-yls \
 	install-tmux \
-	install-nvchad \
 	install-nvim
 
 uninstall: \
@@ -141,17 +140,17 @@ uninstall-ncmpcpp:
 
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
-	@mkdir -p ~/.config/nvim/lua/custom/
-	@cp -r ./nvim/* ~/.config/nvim/lua/custom/
+	@mkdir -p ~/.config/nvim/lua/user/
+	@cp -r ./nvim/* ~/.config/nvim/lua/user/
 	@echo "[*] installing nvim completed"
 
-install-nvchad:
-	@echo "[-] installing nvchad"
+install-astrovim:
+	@echo "[-] installing astrovim"
 	@if [ ! -d ~/.config/nvim/ ]; then \
-		git clone -q https://github.com/NvChad/NvChad.git ~/.config/nvim --depth 1; \
-		echo "[*] installing nvchad completed"; \
+		git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim; \
+		echo "[*] installing astrovim completed"; \
 	else \
-		echo "[*] installing nvchad completed"; \
+		echo "[*] installing astrovim completed"; \
 	fi
 
 install-kitty: uninstall-kitty
@@ -263,7 +262,7 @@ uninstall-nvim:
 	@rm -rf ~/.config/nvim/lua/custom/
 	@echo "[*] uninstalling nvim completed"
 
-uninstall-nvchad:
+uninstall-astrovim:
 	rm -rf \
 		~/.cache/nvim/ \
 		~/.config/nvim/ \
