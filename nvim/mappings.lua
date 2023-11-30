@@ -1,5 +1,7 @@
 return {
   n = {
+    ["<S-h>"] = { "0", desc = "Line Start"},
+    ["<S-l>"] = { "$", desc = "Line End"},
     ["<leader>bD"] = {
       function()
         require("astronvim.utils.status").heirline.buffer_picker(
