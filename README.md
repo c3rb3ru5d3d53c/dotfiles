@@ -20,7 +20,6 @@ sudo apt install -y \
     npm
 git clone https://github.com/c3rb3ru5d3d53c/nvim.git
 cd nvim/
-make
 make install
 ```
 

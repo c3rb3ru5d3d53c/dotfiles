@@ -1,5 +1,3 @@
-all: build-fonts
-
 install: \
 	install-fonts \
 	install-fzf \
@@ -16,7 +14,7 @@ install: \
 uninstall: \
 	uninstall-nvim \
 	uninstall-fzf \
-	uinstall-lazygit \
+	uninstall-lazygit \
 	uninstall-weechat \
 	uninstall-tmux \
 	uninstall-kitty \
@@ -166,7 +164,7 @@ install-nvim: uninstall-nvim
 	@mkdir -p ~/.config/nvim/lua/user/
 	@cp -r ./nvim/* ~/.config/nvim/lua/user/
 	@nvim --headless +q
-	echo "[*] installing nvim completed"
+	@echo "\n[*] installing nvim completed"
 
 uninstall-nvim:
 	@echo "[-] uninstalling nvim"
@@ -205,7 +203,7 @@ install-fish: uninstall-fish
 	@echo "omf install lambda" | fish
 	@mkdir -p ./build/bin/lsd/
 	@wget -qO ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz
-	@tar -xzvf ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
+	@tar -xzf ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
 	@chmod +x ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd
 	@cp ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd ~/.local/bin/lsd
 	@echo "[*] installing fish completed"
@@ -260,20 +258,16 @@ uninstall-pyright:
 	@rm -f ~/.local/bin/pyright-langserver
 	@echo "[*] uninstalling pyright completed"
 
-build-fonts:
-	@echo "[-] building fonts"
+install-fonts:
+	@echo "[-] installing fonts"
+	@rm -rf ./build/fonts/
 	@mkdir -p ./build/fonts/
 	@wget -qO ./build/fonts/DroidSansMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/DroidSansMono.zip	
 	@cd ./build/fonts/ && \
 		unzip -q DroidSansMono.zip -d . && \
 		rm -rf *.md *.zip *.txt
-	@echo "[*] building fonts completed"
-
-install-fonts:
-	@echo "[-] installing fonts"
 	@mkdir -p ~/.fonts/
-	@cd ./build/fonts/ && \
-		cp -r . ~/fonts/
+	@cp ./build/fonts/* ~/.fonts/
 	@fc-cache -f
 	@echo "[*] installing fonts completed"
 
