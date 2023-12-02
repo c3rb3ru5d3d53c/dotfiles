@@ -191,8 +191,10 @@ uninstall-kitty:
 install-tmux: uninstall-tmux
 	@echo "[-] installing tmux"
 	@git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	@mkdir -p ~/.config/tmux/
-	@cp ./tmux/tmux.conf ~/.config/tmux/tmux.conf
+	@mkdir -p ~/.config/tmux/plugins/tmux/
+	@cp ./tmux/*.conf ~/.config/tmux/
+	@~/.tmux/plugins/tpm/bin/install_plugins
+	@cp ./tmux/plugins/tmux/* ~/.config/tmux/plugins/tmux/
 	@echo "[*] installing tmux completed"
 
 install-fish: uninstall-fish
