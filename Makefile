@@ -78,6 +78,7 @@ build-alacritty:
 	@mkdir -p ./build/
 	@git clone -q https://github.com/alacritty/alacritty.git ./build/alacritty
 	@cd build/alacritty/ && \
+		git checkout -q v0.12.3 && \
 		cargo build --release
 	@echo "[-] building alacritty completed"
 
