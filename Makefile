@@ -3,6 +3,7 @@ all: build-fonts
 install: \
 	install-fonts \
 	install-fzf \
+	install-lazygit \
 	install-weechat \
 	install-kitty \
 	install-fish \
@@ -15,6 +16,7 @@ install: \
 uninstall: \
 	uninstall-nvim \
 	uninstall-fzf \
+	uinstall-lazygit \
 	uninstall-weechat \
 	uninstall-tmux \
 	uninstall-kitty \
@@ -25,6 +27,25 @@ uninstall: \
 	uninstall-fish
 
 clean: clean-build
+
+install-lazygit: uninstall-lazygit
+	@echo "[-] installing lazygit"
+	@mkdir -p ./build/lazygit/
+	@wget \
+		-qO ./build/lazygit/lazygit_0.40.2_Linux_32-bit.tar.gz \
+		https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_32-bit.tar.gz
+	@tar -xzf ./build/lazygit/lazygit_0.40.2_Linux_32-bit.tar.gz -C ./build/lazygit/
+	@mkdir -p ~/.local/bin/
+	@cp ./build/lazygit/lazygit ~/.local/bin/
+	@mkdir -p ~/.config/lazygit/
+	@cp -r ./lazygit/* ~/.config/lazygit/
+	@echo "[*] installing lazygit completed"
+
+uninstall-lazygit:
+	@echo "[-] uninstalling lazy-git"
+	@rm -f ~/.local/bin/lazygit
+	@rm -rf ~/.config/lazygit/
+	@echo "[*] uninstalling lazy-git completed"
 
 install-fzf: uninstall-fzf
 	@echo "[-] installing fzf"
