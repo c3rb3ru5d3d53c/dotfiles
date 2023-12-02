@@ -132,7 +132,7 @@ install-youtube-dl: uninstall-youtube-dl
 	@cd ~/.local/bin/.youtube-dl/ && \
 		virtualenv -q -p python3 venv && \
 		. venv/bin/activate && \
-		pip install .
+		pip install -q .
 	@ln -s ~/.local/bin/.youtube-dl/venv/bin/youtube-dl ~/.local/bin/youtube-dl
 	@echo "[*] installing youtube-dl completed"
 
@@ -202,7 +202,7 @@ install-fish: uninstall-fish
 	@curl -s https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command "set argv --noninteractive"
 	@echo "omf install lambda" | fish
 	@mkdir -p ./build/bin/lsd/
-	@wget -O ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz
+	@wget -qO ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz
 	@tar -xzvf ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
 	@chmod +x ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd
 	@cp ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd ~/.local/bin/lsd
