@@ -90,6 +90,7 @@ return {
           "WhichKeyFloat",
         },
       })
+      vim.api.nvim_command("TransparentEnable")
     end
   },
   {

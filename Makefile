@@ -161,18 +161,21 @@ uninstall-ncmpcpp:
 
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
+	@git clone -q --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+	@nvim --headless +q
 	@mkdir -p ~/.config/nvim/lua/user/
 	@cp -r ./nvim/* ~/.config/nvim/lua/user/
-	@echo "[*] installing nvim completed"
+	@nvim --headless +q
+	echo "[*] installing nvim completed"
 
-install-astrovim:
-	@echo "[-] installing astrovim"
-	@if [ ! -d ~/.config/nvim/ ]; then \
-		git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim; \
-		echo "[*] installing astrovim completed"; \
-	else \
-		echo "[*] installing astrovim completed"; \
-	fi
+uninstall-nvim:
+	@echo "[-] uninstalling nvim"
+	@rm -rf \
+		~/.cache/nvim/ \
+		~/.config/nvim/ \
+		~/.local/state/nvim/ \
+		~/.local/share/nvim/
+	@echo "[*] uninstalling nvim completed"
 
 install-kitty: uninstall-kitty
 	@echo "[-] installing kitty"
@@ -278,14 +281,3 @@ clean-build:
 clean-fonts:
 	rm -rf ./build/fonts/
 
-uninstall-nvim:
-	@echo "[-] uninstalling nvim"
-	@rm -rf ~/.config/nvim/lua/custom/
-	@echo "[*] uninstalling nvim completed"
-
-uninstall-astrovim:
-	rm -rf \
-		~/.cache/nvim/ \
-		~/.config/nvim/ \
-		~/.local/state/nvim/ \
-		~/.local/share/nvim/

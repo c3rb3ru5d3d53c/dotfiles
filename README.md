@@ -2,17 +2,22 @@
 
 Personal Dotfiles
 
-## Deps
+## Install
 
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt update
-sudo apt install -y fish mpd ncmpcpp neovim clangd python-is-python3 python3-pip python3-venv npm
-```
-
-## Install
-
-```bash
+sudo apt install -y \
+    weechat \
+    fish \
+    mpd \
+    ncmpcpp \
+    neovim \
+    clangd \
+    python-is-python3 \
+    python3-pip \
+    python3-venv \
+    npm
 git clone https://github.com/c3rb3ru5d3d53c/nvim.git
 cd nvim/
 make
