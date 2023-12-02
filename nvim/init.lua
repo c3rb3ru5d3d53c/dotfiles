@@ -222,6 +222,7 @@ return {
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
     vim.api.nvim_command(':set wrap')
+    vim.api.nvim_command(':set nornu')
     -- Set up custom filetypes
     -- vim.filetype.add {
     --   extension = {
