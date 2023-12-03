@@ -64,7 +64,7 @@ return {
           "DapUIStepIntoNC",
           "DapUIStepOverNC",
           "SignColumn",
-          --"StatusLine",
+          "StatusLine",
           "TelescopeBorder",
           "TelescopeNormal",
           "TelescopePreviewNormal",
