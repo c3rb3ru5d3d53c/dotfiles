@@ -1,0 +1,47 @@
+set shell bash
+set icons
+set previewer ~/.config/lf/lf-previewer.sh
+
+cmd trash ${{
+    gio trash $f;
+}}
+
+cmd trash-empty ${{
+    gio trash --empty;
+}}
+
+cmd fuzzy-cd ${{
+	lf -remote "send ${id} cd \"$(find . -type d | fzf)\"";
+}}
+
+cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+
+cmd unarchive ${{
+  case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar) tar -xvf "$f" ;;
+      *) echo "Unsupported format" ;;
+  esac
+}}
+
+map d
+
+map au unarchive
+map x cut
+map y copy
+map <enter> open
+map R reload
+map r push :rename<space>
+map o open
+map dd trash
+map dt trash-empty
+map gd cd ~/Downloads/
+map gc cd ~/.config/
+map gt cd ~/.local/share/Trash/files/
+map gm cd ~/Music/
+map gp cd ~/Pictures/
+map gh cd ~/
+map gf fuzzy-cd
+

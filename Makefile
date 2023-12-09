@@ -1,5 +1,6 @@
 install: \
 	install-fonts \
+	install-lf \
 	install-fzf \
 	install-lazygit \
 	install-weechat \
@@ -13,6 +14,7 @@ install: \
 
 uninstall: \
 	uninstall-nvim \
+	uninstall-lf \
 	uninstall-fzf \
 	uninstall-lazygit \
 	uninstall-weechat \
@@ -59,18 +61,22 @@ uninstall-fzf:
 	@rm -f ~/.local/bin/fzf
 	@echo "[*] uninstalling fzf completed"
 
-install-lf:
+install-lf: uninstall-lf
 	@echo "[-] installing lf"
 	@mkdir -p ./build/lf/
 	@wget -qO ./build/lf/lf-linux-amd64.tar.gz https://github.com/gokcehan/lf/releases/download/r31/lf-linux-amd64.tar.gz
 	@tar -xzf ./build/lf/lf-linux-amd64.tar.gz -C ./build/lf/
 	@chmod +x ./build/lf/lf
 	@cp ./build/lf/lf ~/.local/bin/lf
+	@mkdir -p ~/.config/lf/
+	@cp -r ./lf/* ~/.config/lf/
 	@echo "[*] installing lf completed"
 
 uninstall-lf:
 	@echo "[-] uninstalling lf"
+	@kill `pidof lf` || echo ""
 	@rm -f ~/.local/bin/lf
+	@rm -rf ~/.config/lf/
 	@echo "[-] uninstalling lf completed"
 
 build-alacritty:
