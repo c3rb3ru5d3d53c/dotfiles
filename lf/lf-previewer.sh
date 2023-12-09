@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
 case "$1" in
+  *.mp3)
+    exiftool "$1";
+  ;;
   *.tar*)
     tar tf "$1";
   ;;

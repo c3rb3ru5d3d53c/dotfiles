@@ -1,7 +1,16 @@
+VERSION_BAT=0.24.0
+VERSION_LAZYGIT=0.40.2
+VERSION_FZF=0.44.1
+VERSION_LF=r31
+VERSION_ALACRITTY=0.12.3
+VERSION_LSD=1.0.0
+
 install: \
 	install-fonts \
 	install-lf \
+	install-lsd \
 	install-fzf \
+	install-bat \
 	install-lazygit \
 	install-weechat \
 	install-kitty \
@@ -15,7 +24,9 @@ install: \
 uninstall: \
 	uninstall-nvim \
 	uninstall-lf \
+	uninstall-lsd \
 	uninstall-fzf \
+	uninstall-bat \
 	uninstall-lazygit \
 	uninstall-weechat \
 	uninstall-tmux \
@@ -28,13 +39,28 @@ uninstall: \
 
 clean: clean-build
 
+install-bat: uninstall-bat
+	@echo "[-] installing bat"
+	@mkdir -p ./build/bat/
+	@wget -qO ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz \
+		https://github.com/sharkdp/bat/releases/download/v${VERSION_BAT}/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz
+	@tar -xzf ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz -C ./build/bat/
+	@chmod +x ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat
+	@cp ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat ~/.local/bin/
+	@echo "[*] installing bat completed"
+
+uninstall-bat:
+	@echo "[-] uninstalling bat"
+	@rm -f ~/.local/bin/bat
+	@echo "[*] uninstalling bat completed"
+
 install-lazygit: uninstall-lazygit
 	@echo "[-] installing lazygit"
 	@mkdir -p ./build/lazygit/
 	@wget \
-		-qO ./build/lazygit/lazygit_0.40.2_Linux_32-bit.tar.gz \
-		https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_32-bit.tar.gz
-	@tar -xzf ./build/lazygit/lazygit_0.40.2_Linux_32-bit.tar.gz -C ./build/lazygit/
+		-qO ./build/lazygit/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz \
+		https://github.com/jesseduffield/lazygit/releases/download/v${VERSION_LAZYGIT}/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz
+	@tar -xzf ./build/lazygit/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz -C ./build/lazygit/
 	@mkdir -p ~/.local/bin/
 	@cp ./build/lazygit/lazygit ~/.local/bin/
 	@mkdir -p ~/.config/lazygit/
@@ -50,8 +76,8 @@ uninstall-lazygit:
 install-fzf: uninstall-fzf
 	@echo "[-] installing fzf"
 	@mkdir -p ./build/fzf/
-	@wget -qO ./build/fzf/fzf-0.44.1-linux_amd64.tar.gz https://github.com/junegunn/fzf/releases/download/0.44.1/fzf-0.44.1-linux_amd64.tar.gz
-	@tar -xzf ./build/fzf/fzf-0.44.1-linux_amd64.tar.gz -C ./build/fzf/
+	@wget -qO ./build/fzf/fzf-${VERSION_FZF}-linux_amd64.tar.gz https://github.com/junegunn/fzf/releases/download/${VERSION_FZF}/fzf-${VERSION_FZF}-linux_amd64.tar.gz
+	@tar -xzf ./build/fzf/fzf-${VERSION_FZF}-linux_amd64.tar.gz -C ./build/fzf/
 	@chmod +x ./build/fzf/fzf
 	@cp ./build/fzf/fzf ~/.local/bin/
 	@echo "[*] installing fzf completed"
@@ -64,7 +90,7 @@ uninstall-fzf:
 install-lf: uninstall-lf
 	@echo "[-] installing lf"
 	@mkdir -p ./build/lf/
-	@wget -qO ./build/lf/lf-linux-amd64.tar.gz https://github.com/gokcehan/lf/releases/download/r31/lf-linux-amd64.tar.gz
+	@wget -qO ./build/lf/lf-linux-amd64.tar.gz https://github.com/gokcehan/lf/releases/download/${VERSION_LF}/lf-linux-amd64.tar.gz
 	@tar -xzf ./build/lf/lf-linux-amd64.tar.gz -C ./build/lf/
 	@chmod +x ./build/lf/lf
 	@cp ./build/lf/lf ~/.local/bin/lf
@@ -74,7 +100,7 @@ install-lf: uninstall-lf
 
 uninstall-lf:
 	@echo "[-] uninstalling lf"
-	@kill `pidof lf` || echo ""
+	@kill `pidof lf` 2>/dev/null || true
 	@rm -f ~/.local/bin/lf
 	@rm -rf ~/.config/lf/
 	@echo "[-] uninstalling lf completed"
@@ -84,7 +110,7 @@ build-alacritty:
 	@mkdir -p ./build/
 	@git clone -q https://github.com/alacritty/alacritty.git ./build/alacritty
 	@cd build/alacritty/ && \
-		git checkout -q v0.12.3 && \
+		git checkout -q ${VERSION_ALACRITTY} && \
 		cargo build --release
 	@echo "[-] building alacritty completed"
 
@@ -208,12 +234,22 @@ install-fish: uninstall-fish
 	@cp -r ./fish/functions/* ~/.config/fish/functions/
 	@curl -s https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command "set argv --noninteractive"
 	@echo "omf install lambda" | fish
-	@mkdir -p ./build/bin/lsd/
-	@wget -qO ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz
-	@tar -xzf ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
-	@chmod +x ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd
-	@cp ./build/bin/lsd/lsd-v1.0.0-i686-unknown-linux-gnu/lsd ~/.local/bin/lsd
 	@echo "[*] installing fish completed"
+
+install-lsd: uninstall-lsd
+	@echo "[-] installing lsd"
+	@mkdir -p ./build/bin/lsd/
+	@wget -qO ./build/bin/lsd/lsd-v${VERSION_LSD}-i686-unknown-linux-gnu.tar.gz \
+		https://github.com/lsd-rs/lsd/releases/download/v${VERSION_LSD}/lsd-v${VERSION_LSD}-i686-unknown-linux-gnu.tar.gz
+	@tar -xzf ./build/bin/lsd/lsd-v${VERSION_LSD}-i686-unknown-linux-gnu.tar.gz -C ./build/bin/lsd/
+	@chmod +x ./build/bin/lsd/lsd-v${VERSION_LSD}-i686-unknown-linux-gnu/lsd
+	@cp ./build/bin/lsd/lsd-v${VERSION_LSD}-i686-unknown-linux-gnu/lsd ~/.local/bin/lsd
+	@echo "[*] installing lsd completed"
+
+uninstall-lsd:
+	@echo "[-] uninstalling lsd"
+	@rm -f ~/.local/bin/lsd
+	@echo "[*] uninstalling lsd completed"
 
 uninstall-fish:
 	@echo "[-] uninstalling fish"

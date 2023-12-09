@@ -26,15 +26,32 @@ cmd unarchive ${{
   esac
 }}
 
+cmd opencustom ${{
+    case "$f" in
+        *.mp3)
+            mpd 2>/dev/null || true
+            cd $(dirname "$f");
+            mpc -q stop;
+            mpc -q insert "`basename \"$f\"`";
+            mpc -q play;
+            mpc -q next;
+        ;;
+        *)
+            xdg-open "$f";
+        ;;
+    esac
+}}
+
 map d
 
 map au unarchive
+map pm playmusic
 map x cut
 map y copy
-map <enter> open
+map <enter> opencustom
 map R reload
 map r push :rename<space>
-map o open
+map o opencustom
 map dd trash
 map dt trash-empty
 map gd cd ~/Downloads/
@@ -42,6 +59,7 @@ map gc cd ~/.config/
 map gt cd ~/.local/share/Trash/files/
 map gm cd ~/Music/
 map gp cd ~/Pictures/
+map gv cd ~/Videos/
 map gh cd ~/
 map gf fuzzy-cd
 
