@@ -21,8 +21,8 @@ sudo apt install -y \
     python3-pip \
     python3-venv \
     npm
-git clone https://github.com/c3rb3ru5d3d53c/nvim.git
-cd nvim/
+git clone https://github.com/c3rb3ru5d3d53c/dotfiles.git
+cd dotfiles/
 make install
 ```
 
