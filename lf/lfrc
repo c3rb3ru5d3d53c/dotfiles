@@ -96,12 +96,16 @@ map r push :rename<space>
 map o opencustom
 map dd trash
 map dt trash-empty
-map gd cd ~/Downloads/
+map gdl cd ~/Downloads/
 map gc cd ~/.config/
-map gt cd ~/.local/share/Trash/files/
+map gr cd ~/.local/share/Trash/files/
 map gm cd ~/Music/
 map gp cd ~/Pictures/
 map gv cd ~/Videos/
+map gdo cd ~/Documents/
+map gde cd ~/Desktop/
+map ga cd ~/analysis/
+map gt cd ~/Tools/
 map gh cd ~/
 map fd fuzzy-cd
 map fe fuzzy-edit
