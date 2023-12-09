@@ -45,7 +45,7 @@ cmd opencustom ${{
         *.mp3|*.wav|*.aac)
             mpd 2>/dev/null || true
             cd $(dirname "$f");
-            mpc -q stop;
+            mpc -q stop || true;
             mpc -q insert "`basename \"$f\"`";
             mpc -q play;
             mpc -q next;
@@ -56,6 +56,26 @@ cmd opencustom ${{
     esac
 }}
 
+cmd music-clear ${{
+    mpc -q clear;
+}}
+
+cmd music-stop ${{
+    mpc -q stop;
+}}
+
+cmd music-play-pause ${{
+    mpc -q toggle;
+}}
+
+cmd music-next ${{
+    mpc -q next;
+}}
+
+cmd music-prev ${{
+    mpc -q prev;
+}}
+
 cmd edit ${{
     nvim "$f";
 }}
@@ -63,6 +83,7 @@ cmd edit ${{
 map d
 map e
 map f
+map m
 
 map e edit
 map au unarchive
@@ -84,4 +105,9 @@ map gv cd ~/Videos/
 map gh cd ~/
 map fd fuzzy-cd
 map fe fuzzy-edit
+map ms music-stop
+map mp music-play-pause
+map mc music-clear
+map mn music-next
+map mb music-prev
 
