@@ -1,9 +1,18 @@
+.PHONY: i3
+
+THREADS=1
+DATE=$(shell date '+%Y-%m-%d')
+USER := $(shell whoami 2>/dev/null)
+USER_ID := $(shell id -u ${USER})
+GROUP_ID := $(shell id -g ${USER})
+
 VERSION_BAT=0.24.0
 VERSION_LAZYGIT=0.40.2
 VERSION_FZF=0.44.1
 VERSION_LF=r31
 VERSION_ALACRITTY=0.12.3
 VERSION_LSD=1.0.0
+VERSION_I3=4.23
 
 install: \
 	install-fonts \
@@ -314,9 +323,42 @@ install-fonts:
 	@fc-cache -f
 	@echo "[*] installing fonts completed"
 
+build-i3:
+	@echo "[-] building i3"
+	@mkdir -p ./build/i3/
+	@rm -rf ./build/i3/
+	@git clone -q https://github.com/i3/i3.git ./build/i3/src/
+	@cd ./build/i3/src/ && \
+		git checkout -q ${VERSION_I3}; \
+		dpkg-buildpackage -sa -j${THREADS}
+	@echo "[*] building i3 completed"
+
+install-i3: uninstall-i3
+	@cd ./build/i3/ && \
+		apt install -y ./i3-wm_4.22-1_amd64.deb
+
+uninstall-i3:
+	@apt autoremove -y i3-wm
+
+i3:
+	@docker image inspect i3:${VERSION_I3} 1>/dev/null 2>/dev/null && \
+		docker run \
+		--rm \
+		-u ${USER_ID}:${GROUP_ID} \
+		-v ${PWD}:${PWD} \
+		-it i3:${VERSION_I3} bash -c "cd ${PWD}; make build-i3" || \
+		docker build \
+		--build-arg THREADS=${THREADS} \
+		--build-arg VERSION=${VERSION_I3} \
+		-t i3:${VERSION_I3} ./i3/
+
 clean-build:
 	rm -rf ./build/
 
 clean-fonts:
 	rm -rf ./build/fonts/
 
+clean-docker:
+	@docker stop $(shell docker ps -a -q) 2>/dev/null || true
+	@docker rm $(shell docker ps -a -q) 2>/dev/null || true
+	@docker rmi $(shell docker images -a -q) 2>/dev/null || true
