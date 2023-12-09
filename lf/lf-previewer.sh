@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 case "$1" in
-  *.mp3)
+  *.mp3|*.avi|*.wmv|*.mp4|*.mkv)
     exiftool "$1";
   ;;
   *.tar*)
@@ -10,16 +10,7 @@ case "$1" in
   *.zip)
     unzip -l "$1";
   ;;
-  *.jpg)
-    chafa "$1";
-  ;;
-  *.jpeg)
-    chafa "$1";
-  ;;
-  *.png)
-    chafa "$1";
-  ;;
-  *.gif)
+  *.jpg|*.jpeg|*.png|*.gif)
     chafa "$1";
   ;;
   *.conf)

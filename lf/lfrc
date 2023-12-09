@@ -11,7 +11,11 @@ cmd trash-empty ${{
 }}
 
 cmd fuzzy-cd ${{
-	lf -remote "send ${id} cd \"$(find . -type d | fzf)\"";
+	lf -remote "send ${id} cd \"$(find . -type d -not -path '*/.*' | fzf)\"";
+}}
+ 
+cmd fuzzy-edit ${{
+    nvim $(find . -type f -not -path '*/.*' | fzf);
 }}
 
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
@@ -28,7 +32,17 @@ cmd unarchive ${{
 
 cmd opencustom ${{
     case "$f" in
-        *.mp3)
+        *.png|*.jpg|*.jpeg)
+            nohup feh "$f" > /dev/null 2>&1 &
+        ;;
+        *.gif)
+            chafa "$f";
+            read;
+        ;;
+        *.mp4|*.avi|*.wmv|*.mkv)
+            nohup mplayer "$f" > /dev/null 2>&1 &
+        ;;
+        *.mp3|*.wav|*.aac)
             mpd 2>/dev/null || true
             cd $(dirname "$f");
             mpc -q stop;
@@ -42,8 +56,15 @@ cmd opencustom ${{
     esac
 }}
 
-map d
+cmd edit ${{
+    nvim "$f";
+}}
 
+map d
+map e
+map f
+
+map e edit
 map au unarchive
 map pm playmusic
 map x cut
@@ -61,5 +82,6 @@ map gm cd ~/Music/
 map gp cd ~/Pictures/
 map gv cd ~/Videos/
 map gh cd ~/
-map gf fuzzy-cd
+map fd fuzzy-cd
+map fe fuzzy-edit
 

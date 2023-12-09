@@ -193,11 +193,11 @@ uninstall-ncmpcpp:
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
 	@git clone -q --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-	@nvim --headless +q
+	@nvim --headless +q 2>/dev/null 1>/dev/null
 	@mkdir -p ~/.config/nvim/lua/user/
 	@cp -r ./nvim/* ~/.config/nvim/lua/user/
-	@nvim --headless +q
-	@echo "\n[*] installing nvim completed"
+	@nvim --headless +q 2>/dev/null 1>/dev/null
+	@echo "[*] installing nvim completed"
 
 uninstall-nvim:
 	@echo "[-] uninstalling nvim"
@@ -224,7 +224,7 @@ install-tmux: uninstall-tmux
 	@git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	@mkdir -p ~/.config/tmux/plugins/tmux/
 	@cp ./tmux/*.conf ~/.config/tmux/
-	@~/.tmux/plugins/tpm/bin/install_plugins
+	@~/.tmux/plugins/tpm/bin/install_plugins 2>/dev/null 1>/dev/null
 	@cp ./tmux/plugins/tmux/* ~/.config/tmux/plugins/tmux/
 	@echo "[*] installing tmux completed"
 
@@ -232,8 +232,8 @@ install-fish: uninstall-fish
 	@echo "[-] installing fish"
 	@mkdir -p ~/.config/fish/functions/
 	@cp -r ./fish/functions/* ~/.config/fish/functions/
-	@curl -s https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command "set argv --noninteractive"
-	@echo "omf install lambda" | fish
+	@curl -s https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command "set argv --noninteractive" 2>/dev/null 1>/dev/null
+	@echo "omf install lambda" | fish 2>/dev/null 1>/dev/null
 	@echo "[*] installing fish completed"
 
 install-lsd: uninstall-lsd
