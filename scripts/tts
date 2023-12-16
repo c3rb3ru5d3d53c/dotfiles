@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+
+# AI Helper powered by ollama AI and piper TTS
+# Author: @c3rb3ru5d3d53c
+# ollama: https://github.com/jmorganca/ollama
+# piper : https://github.com/rhasspy/piper
+
+# Global Variable Configuration
+MODEL=mistral:latest
+PIPER=~/.local/bin/piper
+PIPER_VOICE=~/.local/bin/.piper/voices/en/en_US/amy/low/en_US-amy-low.onnx
+PIPER_PITCH=1
+PIPER_SPEED=1.25
+PIPER_SAMPLE_RATE=21050
+PIPER_BIT_RATE=s16le
+OLLAMA_URL=http://localhost:11434/api/generate
+
+function say(){
+	$PIPER \
+		--model $PIPER_VOICE \
+		--output-raw | \
+	ffplay \
+		-f ${PIPER_BIT_RATE} \
+		-ar ${PIPER_SAMPLE_RATE} \
+		-ac 1 \
+		-nodisp \
+		-autoexit \
+		-af "atempo=${PIPER_SPEED},rubberband=pitch=${PIPER_PITCH}" -
+}
+
+function prompt_selection(){
+	echo -n '{"model": "'$MODEL'", "prompt":"'$1' '$(xclip -o | sed 's/\\/\\\\/g;s/\"/\\"/g')'"}' | \
+	curl \
+		-s \
+		-X POST ${OLLAMA_URL} \
+		-d "$(</dev/stdin)" | \
+	jq \
+		-j \
+		-r '.response'
+}
+
+function prompt(){
+	echo -n '{"model": "'$MODEL'", "prompt":"'$@'"}' | \
+	curl \
+		-s \
+		-X POST ${OLLAMA_URL} \
+		-d "$(</dev/stdin)" | \
+	jq \
+		-j \
+		-r '.response'
+}
+
+function copy_stdin(){
+	xclip -selection clipboard
+}
+
+function paste_stdout(){
+	xclip -o
+}
+
+function paste(){
+	xdotool key "ctrl+shift+v"
+}
+
+function copy(){
+	xdotool key ctrl+c
+}
+
+function message(){
+	notify-send --hint string:transient:1 -t 500 "$1"
+	echo "$1" | say
+}
+
+function check_ollama(){
+	if ! pidof -x "ollama" > /dev/null; then
+		echo "Error, the ollama server is not running..." | say;
+		exit 0;
+	fi
+}
+
+if [ "$(pidof piper)" ]; then
+	pkill piper;
+	exit 0;
+fi
+
+option="$1"
+
+if [ -z "$1" ]; then
+    option=$(
+		zenity \
+			--height 250 \
+			--width 350 \
+			--title="AI Helper" \
+			--list --text="Select text and choose and option." \
+			--column="Action" --column="Options" \
+			--hide-column=1 \
+			"speak_selection" "Speak selected text" \
+			"speak_text" "Speak entered text" \
+			"speak_prompt" "Speak AI prompt result" \
+			"paste_prompt" "Paste AI prompt result" \
+			"speak_prompt_selection" "Speak AI prompt result (based on selection)" \
+			"paste_prompt_selection" "Paste AI prompt result (based on selection)" \
+		)
+fi
+
+if [ -z "$option" ]; then
+	exit 0;
+fi
+
+case "$option" in
+	"speak_selection")
+		copy
+		paste_stdout | say
+	;;
+	"speak_prompt")
+		check_ollama
+		result=$(zenity --width 600 --entry --title="AI Helper" --text="What is your request?" --entry-text="");
+		message "Processing prompt, please wait..."
+		prompt "${result}" | say
+		message "Processing prompt, completed..."
+		;;
+	"speak_text")
+		check_ollama
+		result=$(zenity --width 600 --entry --title="AI Helper" --text="What should I say?" --entry-text="");
+		echo "${result}" | say
+		;;
+	"paste_prompt")
+		check_ollama
+		result=$(zenity --width 600 --entry --title="AI Helper" --text="What is your request?" --entry-text="");
+		message "Processing prompt, please wait..."
+		prompt "${result}" | copy_stdin
+		message "Processing prompt, completed..."
+		paste
+		;;
+	"speak_prompt_selection")
+		check_ollama
+		copy
+		result=$(zenity --width 600 --entry --title="AI Helper" --text="What should I do with the selection?" --entry-text="");
+		message "Processing prompt, please wait..."
+		prompt_selection "${result}: " | say
+		message "Processing prompt, completed..."
+		;;
+	"paste_prompt_selection")
+		check_ollama
+		copy
+		result=$(zenity --width 600 --entry --title="AI Helper" --text="What should I do with the selection?" --entry-text="");
+		message "Processing prompt, please wait..."
+		prompt_selection "${result}: " | copy_stdin
+		message "Processing prompt, completed..."
+		paste
+		;;
+	*)
+	echo "an option was not selected..." | say
+	;;
+esac
+
+exit 0

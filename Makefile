@@ -14,6 +14,8 @@ VERSION_ALACRITTY=0.12.3
 VERSION_LSD=1.0.0
 VERSION_I3=4.23
 VERSION_AUTOTILING=1.8
+VERSION_PIPER=2023.11.14-2
+VERSION_OLLAMA=0.1.16
 
 install: \
 	install-fonts \
@@ -58,6 +60,41 @@ install-bat: uninstall-bat
 	@chmod +x ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat
 	@cp ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat ~/.local/bin/
 	@echo "[*] installing bat completed"
+
+install-piper:
+	@echo "[-] installing piper"
+	@mkdir -p ./build/piper/
+	@wget -qO ./build/piper/piper_linux_x86_64.tar.gz \
+		https://github.com/rhasspy/piper/releases/download/${VERSION_PIPER}/piper_linux_x86_64.tar.gz 
+	@tar -xzf ./build/piper/piper_linux_x86_64.tar.gz -C ./build/piper/
+	@mkdir -p ~/.local/bin/.piper/
+	@cp -r ./build/piper/piper/* ~/.local/bin/.piper/
+	@ln -s ~/.local/bin/.piper/piper ~/.local/bin/piper
+	@cd ~/.local/bin/.piper/ && \
+		GIT_LFS_SKIP_SMUDGE=1 git clone -q https://huggingface.co/rhasspy/piper-voices voices/ && \
+		cd voices/ && \
+		git lfs pull --include en/en_US/amy/low/en_US-amy-low.onnx
+	@cp ./scripts/tts ~/.local/bin/
+	@chmod +x ~/.local/bin/tts
+	@echo "[*] installing piper completed"
+
+install-ollama:
+	@echo "[-] installing ollama"
+	@wget -qO ~/.local/bin/ollama \
+		https://github.com/jmorganca/ollama/releases/download/v${VERSION_OLLAMA}/ollama-linux-amd64
+	@chmod +x ~/.local/bin/ollama
+	@echo "[*] installing ollama completed"
+
+uinstall-ollama:
+	@echo "[-] uninstalling olamma"
+	@rm -f ~/.local/bin/ollama
+	@echo "[*] uninstalling ollama completed"
+
+uninstall-piper:
+	@echo "[-] uninstalling piper"
+	@rm  -rf ~/.local/bin/.piper/
+	@rm -f ~/.local/bin/piper
+	@echo "[*] uninstalling piper completed"
 
 uninstall-bat:
 	@echo "[-] uninstalling bat"
