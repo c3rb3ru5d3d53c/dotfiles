@@ -333,6 +333,17 @@ build-i3:
 		dpkg-buildpackage -sa -j${THREADS}
 	@echo "[*] building i3 completed"
 
+install-i3-config: uninstall-i3-config
+	@echo "[-] installing i3 configuration"
+	@mkdir -p ~/.config/i3/
+	@cp -r ./i3/config/. ~/.config/i3/
+	@echo "[*] installing i3 configuration completed"
+
+uninstall-i3-config:
+	@echo "[-] uninstalling i3 configuration"
+	@rm -rf ~/.config/i3/
+	@echo "[*] uninstalling i3 configuration completed"
+
 install-i3: uninstall-i3
 	@cd ./build/i3/ && \
 		apt install -y ./i3-wm_4.22-1_amd64.deb

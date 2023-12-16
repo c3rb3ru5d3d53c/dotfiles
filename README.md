@@ -40,11 +40,13 @@ Installation of optional applications
 ```bash
 make i3 THREADS=4
 sudo make install-i3
+make install-i3-config
 ```
 
 ### I3 Uninstall
 ```bash
-make uninstall-i3
+sudo make uninstall-i3
+make uninstall-i3-config
 ```
 
 ### Alacritty Install
