@@ -40,7 +40,7 @@ cmd opencustom ${{
             read;
         ;;
         *.mp4|*.avi|*.wmv|*.mkv)
-            nohup mplayer "$f" > /dev/null 2>&1 &
+            nohup mpv "$f" > /dev/null 2>&1 &
         ;;
         *.mp3|*.wav|*.aac)
             mpd 2>/dev/null || true
