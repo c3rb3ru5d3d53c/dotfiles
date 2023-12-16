@@ -31,6 +31,10 @@ exec --no-startup-id setxkbmap -option caps:ctrl_modifier
 
 exec --no-startup-id flameshot
 
+exec --no-startup-id xsetroot -cursor_name left_pt
+
+exec_always --no-startup-id autotiling
+
 bindsym $mod+Control+l exec --no-startup-id i3lock -i ~/.config/i3/wallpapers/madoka.png
 
 bindsym $mod+Shift+s exec --no-startup-id scrot

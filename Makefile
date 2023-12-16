@@ -13,6 +13,7 @@ VERSION_LF=r31
 VERSION_ALACRITTY=0.12.3
 VERSION_LSD=1.0.0
 VERSION_I3=4.23
+VERSION_AUTOTILING=1.8
 
 install: \
 	install-fonts \
@@ -304,6 +305,22 @@ install-pyright: uninstall-pyright
 	@ln -s ~/.local/bin/.pyright/venv/bin/pyright-langserver ~/.local/bin/pyright-langserver
 	@echo "[*] building pyright language server completed"
 
+install-autotiling: uninstall-autotiling
+	@echo "[-] installing autotiling"
+	@mkdir -p ~/.local/bin/.autotiling/
+	@cd ~/.local/bin/.autotiling/ && \
+		virtualenv -q -p python3 venv && \
+		. venv/bin/activate && \
+		pip install -q autotiling==${VERSION_AUTOTILING}
+	@ln -s ~/.local/bin/.autotiling/venv/bin/autotiling ~/.local/bin/autotiling
+	@echo "[*] installing autotiling completed"
+
+uninstall-autotiling:
+	@echo "[-] uninstalling autotiling"
+	@rm -rf ~/.local/bin/.autotiling/
+	@rm -f ~/.local/bin/autotiling
+	@echo "[*] uninstalling autotiling completed"
+
 uninstall-pyright:
 	@echo "[-] uninstalling pyright"
 	@rm -rf ~/.local/bin/.pyright/
@@ -333,7 +350,7 @@ build-i3:
 		dpkg-buildpackage -sa -j${THREADS}
 	@echo "[*] building i3 completed"
 
-install-i3-config: uninstall-i3-config
+install-i3-config: uninstall-i3-config install-autotiling
 	@echo "[-] installing i3 configuration"
 	@mkdir -p ~/.config/i3/
 	@cp -r ./i3/config/. ~/.config/i3/
