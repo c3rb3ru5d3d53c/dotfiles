@@ -19,136 +19,17 @@ VERSION_PIPER=2023.11.14-2
 VERSION_OLLAMA=0.1.16
 VERSION_POLYBAR=3.7.1
 
-install: \
-	install-fonts \
-	install-lf \
-	install-gtk-config \
-	install-lsd \
-	install-fzf \
-	install-bat \
-	install-lazygit \
-	install-weechat \
-	install-kitty \
-	install-fish \
-	install-youtube-dl \
-	install-pyright \
-	install-yls \
-	install-tmux \
-	install-nvim
-
-uninstall: \
-	uninstall-nvim \
-	uninstall-lf \
-	uninstall-lsd \
-	uninstall-fzf \
-	uninstall-bat \
-	uninstall-lazygit \
-	uninstall-weechat \
-	uninstall-tmux \
-	uninstall-kitty \
-	uninstall-youtube-dl \
-	uninstall-pyright \
-	uninstall-yls \
-	uninstall-tmux \
-	uninstall-fish
+include ./lazygit/Makefile
+include ./bat/Makefile
+include ./gtk/Makefile
+include ./ncmpcpp/Makefile
+include ./rofi/Makefile
+include ./ollama/Makefile
+include ./piper/Makefile
+include ./fzf/Makefile
+include ./youtube-dl/Makefile
 
 clean: clean-build
-
-install-gtk-config:
-	@echo "[-] installing gtk configuration"
-	@mkdir -p ~/.config/gtk-3.0/
-	@cp -r ./gtk/config/* ~/.config/gtk-3.0/
-	@echo "[*] installing gtk configuration completed"
-
-install-bat: uninstall-bat
-	@echo "[-] installing bat"
-	@mkdir -p ./build/bat/
-	@wget -qO ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz \
-		https://github.com/sharkdp/bat/releases/download/v${VERSION_BAT}/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz
-	@tar -xzf ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz -C ./build/bat/
-	@chmod +x ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat
-	@cp ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat ~/.local/bin/
-	@echo "[*] installing bat completed"
-
-
-install-rofi-config:
-	@echo "[-] installing rofi configuration"
-	@mkdir -p ~/.config/rofi/
-	@cp -r ./rofi/config/* ~/.config/rofi/
-	@echo "[*] installing rofi configuration completed"
-
-install-piper:
-	@echo "[-] installing piper"
-	@mkdir -p ./build/piper/
-	@wget -qO ./build/piper/piper_linux_x86_64.tar.gz \
-		https://github.com/rhasspy/piper/releases/download/${VERSION_PIPER}/piper_linux_x86_64.tar.gz 
-	@tar -xzf ./build/piper/piper_linux_x86_64.tar.gz -C ./build/piper/
-	@mkdir -p ~/.local/bin/.piper/
-	@cp -r ./build/piper/piper/* ~/.local/bin/.piper/
-	@ln -s ~/.local/bin/.piper/piper ~/.local/bin/piper
-	@cd ~/.local/bin/.piper/ && \
-		GIT_LFS_SKIP_SMUDGE=1 git clone -q https://huggingface.co/rhasspy/piper-voices voices/ && \
-		cd voices/ && \
-		git lfs pull --include en/en_US/amy/low/en_US-amy-low.onnx
-	@cp ./scripts/tts ~/.local/bin/
-	@chmod +x ~/.local/bin/tts
-	@echo "[*] installing piper completed"
-
-install-ollama:
-	@echo "[-] installing ollama"
-	@wget -qO ~/.local/bin/ollama \
-		https://github.com/jmorganca/ollama/releases/download/v${VERSION_OLLAMA}/ollama-linux-amd64
-	@chmod +x ~/.local/bin/ollama
-	@echo "[*] installing ollama completed"
-
-uinstall-ollama:
-	@echo "[-] uninstalling olamma"
-	@rm -f ~/.local/bin/ollama
-	@echo "[*] uninstalling ollama completed"
-
-uninstall-piper:
-	@echo "[-] uninstalling piper"
-	@rm  -rf ~/.local/bin/.piper/
-	@rm -f ~/.local/bin/piper
-	@echo "[*] uninstalling piper completed"
-
-uninstall-bat:
-	@echo "[-] uninstalling bat"
-	@rm -f ~/.local/bin/bat
-	@echo "[*] uninstalling bat completed"
-
-install-lazygit: uninstall-lazygit
-	@echo "[-] installing lazygit"
-	@mkdir -p ./build/lazygit/
-	@wget \
-		-qO ./build/lazygit/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz \
-		https://github.com/jesseduffield/lazygit/releases/download/v${VERSION_LAZYGIT}/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz
-	@tar -xzf ./build/lazygit/lazygit_${VERSION_LAZYGIT}_Linux_32-bit.tar.gz -C ./build/lazygit/
-	@mkdir -p ~/.local/bin/
-	@cp ./build/lazygit/lazygit ~/.local/bin/
-	@mkdir -p ~/.config/lazygit/
-	@cp -r ./lazygit/* ~/.config/lazygit/
-	@echo "[*] installing lazygit completed"
-
-uninstall-lazygit:
-	@echo "[-] uninstalling lazy-git"
-	@rm -f ~/.local/bin/lazygit
-	@rm -rf ~/.config/lazygit/
-	@echo "[*] uninstalling lazy-git completed"
-
-install-fzf: uninstall-fzf
-	@echo "[-] installing fzf"
-	@mkdir -p ./build/fzf/
-	@wget -qO ./build/fzf/fzf-${VERSION_FZF}-linux_amd64.tar.gz https://github.com/junegunn/fzf/releases/download/${VERSION_FZF}/fzf-${VERSION_FZF}-linux_amd64.tar.gz
-	@tar -xzf ./build/fzf/fzf-${VERSION_FZF}-linux_amd64.tar.gz -C ./build/fzf/
-	@chmod +x ./build/fzf/fzf
-	@cp ./build/fzf/fzf ~/.local/bin/
-	@echo "[*] installing fzf completed"
-
-uninstall-fzf:
-	@echo "[-] uninstalling fzf"
-	@rm -f ~/.local/bin/fzf
-	@echo "[*] uninstalling fzf completed"
 
 install-lf: uninstall-lf
 	@echo "[-] installing lf"
@@ -218,40 +99,6 @@ uninstall-weechat:
 		~/.cache/weechat/ \
 		~/.local/share/weechat/
 	@echo "[*] uninstalling weechat completed"
-
-install-youtube-dl: uninstall-youtube-dl
-	@echo "[-] installing youtube-dl"
-	@mkdir -p ~/.local/bin/
-	@git clone -q https://github.com/ytdl-org/youtube-dl.git ~/.local/bin/.youtube-dl
-	@cd ~/.local/bin/.youtube-dl/ && \
-		virtualenv -q -p python3 venv && \
-		. venv/bin/activate && \
-		pip install -q .
-	@ln -s ~/.local/bin/.youtube-dl/venv/bin/youtube-dl ~/.local/bin/youtube-dl
-	@echo "[*] installing youtube-dl completed"
-
-uninstall-youtube-dl:
-	@echo "[-] uninstalling youtube-dl"
-	@rm -rf ~/.local/bin/.youtube-dl/
-	@rm -f ~/.local/bin/youtube-dl
-	@echo "[*] uninstalling youtube-dl completed"
-
-install-ncmpcpp: uninstall-ncmpcpp
-	@echo "[-] installing ncmpcpp"
-	@mkdir -p ~/Music/PlayLists/
-	@mkdir -p ~/.config/mpd/
-	@touch ~/.config/mpd/mpd.log
-	@touch ~/.config/mpd/mpd.db
-	@cp ./mpd/mpd.conf ~/.config/mpd/mpd.conf
-	@mkdir -p ~/.config/ncmpcpp/
-	@cp -r ./ncmpcpp/* ~/.config/ncmpcpp/
-	@echo "[*] installing ncmpcpp completed"
-
-uninstall-ncmpcpp:
-	@echo "[-] uninstalling ncmpcpp"
-	@rm -rf ~/.config/mpd/
-	@rm -rf ~/.config/ncmpcpp/
-	@echo "[*] uninstalling ncmpcpp"
 
 install-nvim: uninstall-nvim
 	@echo "[-] installing nvim"
