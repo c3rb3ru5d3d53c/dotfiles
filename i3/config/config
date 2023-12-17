@@ -37,6 +37,10 @@ exec --no-startup-id xsetroot -cursor_name left_pt
 
 exec_always --no-startup-id autotiling
 
+exec_always --no-startup-id polybar-msg cmd quit
+
+exec_always --no-startup-id polybar --config=~/.config/polybar/config.ini example
+
 bindsym $mod+Shift+s exec --no-startup-id tts
 
 bindsym $mod+Control+l exec --no-startup-id i3lock -i ~/.config/i3/wallpapers/helltaker.png
@@ -45,7 +49,7 @@ bindsym $mod+Return exec --no-startup-id kitty
 
 bindsym $mod+Shift+q kill
 
-bindsym $mod+d exec --no-startup-id dmenu_run -nb '#000000' -sf '#000000' -sb '#9370db' -nf '#9370db'
+bindsym $mod+d exec --no-startup-id "rofi -modi drun -theme ~/.config/rofi/config.rasi -show-icons -show drun"
 
 bindsym $mod+Shift+u exec --no-startup-id ~/.config/i3/scripts/i3-resize down
 bindsym $mod+Shift+i exec --no-startup-id ~/.config/i3/scripts/i3-resize up
@@ -143,11 +147,11 @@ client.focused_inactive #000000 #000000 #ffffff #000000
 client.unfocused        #000000 #000000 #ffffff #000000
 client.urgent           #000000 #000000 #000000 #000000
 
-bar {
-	colors {
-		focused_workspace  #ffffff  #ffffff      #000000
-		active_workspace   #ffffff  #ff0000      #000000
-		inactive_workspace #000000  #000000      #ffffff
-		urgent_workspace   #ffffff  #ffffff      #000000
-	}
-}
+# bar {
+# 	colors {
+# 		focused_workspace  #ffffff  #ffffff      #000000
+# 		active_workspace   #ffffff  #ff0000      #000000
+# 		inactive_workspace #000000  #000000      #ffffff
+# 		urgent_workspace   #ffffff  #ffffff      #000000
+# 	}
+# }

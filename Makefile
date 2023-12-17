@@ -63,6 +63,13 @@ install-bat: uninstall-bat
 	@cp ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu/bat ~/.local/bin/
 	@echo "[*] installing bat completed"
 
+
+install-rofi-config:
+	@echo "[-] installing rofi configuration"
+	@mkdir -p ~/.config/rofi/
+	@cp -r ./rofi/config/* ~/.config/rofi/
+	@echo "[*] installing rofi configuration completed"
+
 install-piper:
 	@echo "[-] installing piper"
 	@mkdir -p ./build/piper/
