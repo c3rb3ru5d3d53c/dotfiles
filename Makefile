@@ -22,6 +22,7 @@ VERSION_POLYBAR=3.7.1
 install: \
 	install-fonts \
 	install-lf \
+	install-gtk-config \
 	install-lsd \
 	install-fzf \
 	install-bat \
@@ -52,6 +53,12 @@ uninstall: \
 	uninstall-fish
 
 clean: clean-build
+
+install-gtk-config:
+	@echo "[-] installing gtk configuration"
+	@mkdir -p ~/.config/gtk-3.0/
+	@cp -r ./gtk/config/* ~/.config/gtk-3.0/
+	@echo "[*] installing gtk configuration completed"
 
 install-bat: uninstall-bat
 	@echo "[-] installing bat"
