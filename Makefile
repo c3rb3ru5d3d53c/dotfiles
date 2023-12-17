@@ -28,26 +28,9 @@ include ./ollama/Makefile
 include ./piper/Makefile
 include ./fzf/Makefile
 include ./youtube-dl/Makefile
+include ./lf/Makefile
 
 clean: clean-build
-
-install-lf: uninstall-lf
-	@echo "[-] installing lf"
-	@mkdir -p ./build/lf/
-	@wget -qO ./build/lf/lf-linux-amd64.tar.gz https://github.com/gokcehan/lf/releases/download/${VERSION_LF}/lf-linux-amd64.tar.gz
-	@tar -xzf ./build/lf/lf-linux-amd64.tar.gz -C ./build/lf/
-	@chmod +x ./build/lf/lf
-	@cp ./build/lf/lf ~/.local/bin/lf
-	@mkdir -p ~/.config/lf/
-	@cp -r ./lf/* ~/.config/lf/
-	@echo "[*] installing lf completed"
-
-uninstall-lf:
-	@echo "[-] uninstalling lf"
-	@kill `pidof lf` 2>/dev/null || true
-	@rm -f ~/.local/bin/lf
-	@rm -rf ~/.config/lf/
-	@echo "[-] uninstalling lf completed"
 
 build-alacritty:
 	@echo "[-] building alacritty"
