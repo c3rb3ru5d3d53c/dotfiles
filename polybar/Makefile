@@ -1,14 +1,15 @@
 build-polybar:
-	@docker image inspect polybar:${VERSION_POLYBAR} 1>/dev/null 2>/dev/null && \
-		docker run \
+	@if [ -z $$(docker images -q polybar:${VERSION_POLYBAR}) ]; then \
+		docker build \
+			--build-arg THREADS=${THREADS} \
+			--build-arg VERSION=${VERSION_POLYBAR} \
+			-t polybar:${VERSION_POLYBAR} ./polybar/; \
+	fi
+	@docker run \
 		--rm \
 		-u ${USER_ID}:${GROUP_ID} \
 		-v ${PWD}:${PWD} \
-		-it polybar:${VERSION_POLYBAR} bash -c "cd ${PWD}; make build-polybar-0" || \
-		docker build \
-		--build-arg THREADS=${THREADS} \
-		--build-arg VERSION=${VERSION_POLYBAR} \
-		-t polybar:${VERSION_POLYBAR} ./polybar/
+		-it polybar:${VERSION_POLYBAR} bash -c "cd ${PWD}; make build-polybar-0";
 
 build-polybar-0:
 	@echo "[-] building polybar"

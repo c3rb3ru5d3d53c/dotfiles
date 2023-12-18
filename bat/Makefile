@@ -1,6 +1,4 @@
-.PHONY: bat
-
-bat:
+build-bat:
 	@echo "[-] building bat"
 	@mkdir -p ./build/bat/
 	@wget -qO ./build/bat/bat-v${VERSION_BAT}-i686-unknown-linux-gnu.tar.gz \

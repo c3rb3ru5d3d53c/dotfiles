@@ -4,12 +4,19 @@ Personal Dotfiles
 
 ## Install
 
+This dotfiles repository makes building and installing tools modular.
+
+Each directory contains a `config\` folder, `Makefile` and `Dockerfile`.
+
+The purpose of this is to easily include a `Makefile` from the root directory of the repository. Once completed, builds can be performed using docker without filling up your system with development packages.
+
+Each program that can be installed is done using the `build-` prefix; for example, `build-i3` uses docker to build i3 from source. Additionally, in the root `Makefile`, the versions of each program can be bumped to different versions. We can override the versions as well by doing `build-i3 THREADS=4 VERSION_I3=4.23`.
+
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt update
 sudo apt install -y \
     mpv \
-    polybar \
     flameshot \
     docker.io \
     feh \
@@ -41,7 +48,7 @@ Installation of optional applications
 ### I3 Install
 
 ```bash
-make i3 THREADS=4
+make build-i3 THREADS=4
 sudo make install-i3
 make install-i3-config
 ```

@@ -27,14 +27,15 @@ uninstall-i3:
 	@apt autoremove -y i3-wm
 
 build-i3:
-	@docker image inspect i3:${VERSION_I3} 1>/dev/null 2>/dev/null && \
-		docker run \
+	@if [ -z $$(docker images -q i3:${VERSION_I3}) ]; then \
+		docker build \
+			--build-arg THREADS=${THREADS} \
+			--build-arg VERSION=${VERSION_I3} \
+			-t i3:${VERSION_I3} ./i3/; \
+  fi
+	@docker run \
 		--rm \
 		-u ${USER_ID}:${GROUP_ID} \
 		-v ${PWD}:${PWD} \
-		-it i3:${VERSION_I3} bash -c "cd ${PWD}; make build-i3" || \
-		docker build \
-		--build-arg THREADS=${THREADS} \
-		--build-arg VERSION=${VERSION_I3} \
-		-t i3:${VERSION_I3} ./i3/
+		-it i3:${VERSION_I3} bash -c "cd ${PWD}; make build-i3-0"; \
 
