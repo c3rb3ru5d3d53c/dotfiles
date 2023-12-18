@@ -1,6 +1,4 @@
-.PHONY: lf
-
-lf:
+build-lf:
 	@echo "[-] building lf"
 	@mkdir -p ./build/lf/
 	@wget -qO ./build/lf/lf-linux-amd64.tar.gz \

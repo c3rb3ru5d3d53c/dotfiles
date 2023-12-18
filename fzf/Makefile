@@ -1,6 +1,4 @@
-.PHONY: fzf
-
-fzf:
+build-fzf:
 	@echo "[-] building fzf"
 	@mkdir -p ./build/fzf/
 	@wget -qO ./build/fzf/fzf-${VERSION_FZF}-linux_amd64.tar.gz https://github.com/junegunn/fzf/releases/download/${VERSION_FZF}/fzf-${VERSION_FZF}-linux_amd64.tar.gz

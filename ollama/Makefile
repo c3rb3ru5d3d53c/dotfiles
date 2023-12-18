@@ -1,6 +1,4 @@
-.PHONY: ollama
-
-ollama:
+build-ollama:
 	@echo "[-] building ollama"
 	@mkdir -p ./build/ollama/
 	@wget -qO ./build/ollama/ollama \

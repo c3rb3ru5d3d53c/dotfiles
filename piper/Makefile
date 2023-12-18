@@ -1,6 +1,4 @@
-.PHONY: piper
-
-piper:
+build-piper:
 	@echo "[-] building piper"
 	@mkdir -p ./build/piper/
 	@wget -qO ./build/piper/piper_linux_x86_64.tar.gz \
